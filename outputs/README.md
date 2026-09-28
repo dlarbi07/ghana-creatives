@@ -1,25 +1,19 @@
-# Ghana Creatives — V1 prototype
+# Ghana Creatives — V1
 
-A responsive, self-contained web prototype for Ghanaian creative discovery and hiring. Open `index.html` in a browser or serve this folder with any static web server. No build step is required.
+Responsive, local-storage web app for discovering Ghanaian creatives and creative work. Open `index.html` directly for a local demo or serve this folder from a static web host. No build step is required.
 
-## Included interactions
+## Main routes and features
 
-- Browse and search creative profiles; filter by category, location and availability.
-- View service menus, save creatives, send quote requests, and share profile links/QR codes.
-- Post one-time and contract jobs, search/filter the job board, and submit applications.
-- Create a client or creative demo account, manage a basic creative profile and services, and view dashboard activity.
-- Browser `localStorage` keeps demo content on the current device. Use the dashboard sign-out action to clear the active session.
+- Homepage: search, all creative categories, featured profiles, six sample work projects, a single spotlight and a short find/post call to action.
+- Creative Work: project feed and category filters; each project has a shareable detail route.
+- Discover: profile search and category, location, price, availability and work-type filters.
+- Jobs: searchable listings, job detail pages, creative applications and client applicant actions.
+- Creative profiles: work, services, accepted work types, quote/contact actions, profile QR and sharing.
+- Dashboards: compact creative and client views. Creative accounts can add work using an image upload or image URL; images are resized and stored locally in this browser.
+- Account data and activity remain in this browser's `localStorage`; sign-in is still a demo prototype. No Supabase connection or payment processing is configured.
 
-## Important V1 boundary
+On an HTTP(S) host, profile, project and job pages use paths such as `/creatives/ama-visuals`, `/projects/accra-after-dark` and `/jobs/social-media-manager-accra`. The included `_redirects` file is a Netlify-style SPA fallback. When opened as a local `file:` URL, routes use the hash so they continue to work without a server.
 
-This folder is a working front-end prototype. Demo sign-in is local-only, portfolio uploads are represented by sample imagery, and there is no live Supabase connection yet. Do not use demo sign-in for real accounts or sensitive data. The supplied `supabase-schema.sql` defines the production-oriented data model and initial row-level security policies. Production deployment still needs a Supabase project, Storage policies/bucket, client integration using the public project URL and anon key, and production auth wiring. Never expose a Supabase service-role key in a browser.
+The SCENE 233 emblem is the supplied original image at `scene-233-emblem.png`; the app uses it without editing the artwork. The original Supabase draft schema remains in `supabase-schema.sql` but is not connected to this demo.
 
-## Supabase model
-
-Run `supabase-schema.sql` in the Supabase SQL editor. It creates auth-linked profiles, seeded categories, creative/category links, portfolio projects and media, services, jobs, applications, quote requests, saved creatives and the future projects table. It also enables row-level security and includes starter policies. Create a `portfolio` Storage bucket and configure the ownership policies noted at the end of the SQL file before accepting uploads.
-
-## Notes
-
-- Currency is shown in Ghana cedis (GHS).
-- The pasted brief supplied to this build ended mid-search-placeholder in the homepage section; the implementation follows the product, roles and schema described before that cutoff.
-- Third-party Google Fonts, Unsplash imagery and the QRCode.js CDN are used for the visual demo and profile QR panel; a network connection is needed for those assets.
+External fonts, sample Unsplash imagery, and QRCode.js use a network connection. If the QR library is unavailable, its profile link and copy/share action remain available.
