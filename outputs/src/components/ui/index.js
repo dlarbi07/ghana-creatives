@@ -15,8 +15,9 @@
       ? `<a class="${classes}" href="${escape(href)}"${aria}${dataAttrs(data)}>${content}</a>`
       : `<button class="${classes}" type="${escape(type)}"${aria}${dataAttrs(data)}>${content}</button>`;
   };
-  UI.IconButton = function IconButton({ label, icon, className = '', data, type = 'button' } = {}) {
-    return `<button class="scene-ui-icon-button ${escape(className)}" type="${escape(type)}" aria-label="${escape(label || 'Action')}" title="${escape(label || 'Action')}"${dataAttrs(data)}>${icon || ''}</button>`;
+  UI.IconButton = function IconButton({ label, icon, className = '', data, type = 'button', ariaExpanded } = {}) {
+    const expanded = ariaExpanded === undefined ? '' : ` aria-expanded="${Boolean(ariaExpanded)}"`;
+    return `<button class="scene-ui-icon-button ${escape(className)}" type="${escape(type)}" aria-label="${escape(label || 'Action')}" title="${escape(label || 'Action')}"${expanded}${dataAttrs(data)}>${icon || ''}</button>`;
   };
   UI.Logo = function Logo({ variant = 'light', size = 'medium', href, asset = 'src/assets/scene-233-logo-transparent.png', alt = 'SCENE 233', className = '', data } = {}) {
     const image = `<img src="${escape(asset)}" alt="${escape(alt)}" class="scene-logo__image">`;

@@ -6,7 +6,7 @@ Reusable frontend primitives, spacing/color tokens, logo asset, and accessibilit
 
 ## Main routes and features
 
-- SCENE 233 home: cinematic hero, scrollable category bar, interactive feature mosaic, cursor-responsive discovery panels, creator carousel, events, stories and creator search.
+- SCENE 233 home: responsive editorial navbar and split cinematic hero with reusable media, accessible expanding search, mobile menu, eight-category strip, interactive feature mosaic, creator carousel, events, stories and creator search.
 - Explore: creator search and category filters, creator profiles, stories and event detail routes.
 - Creative Work: project feed and category filters; each project has a shareable detail route.
 - Discover: profile search and category, location, price, availability and work-type filters.
