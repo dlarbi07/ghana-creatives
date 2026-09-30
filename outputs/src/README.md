@@ -5,9 +5,11 @@ The app stays dependency-free and supports direct `index.html` use. Shared piece
 1. `components/ui/index.js` and `components/ui/search-button.js` — shared controls and search toggle.
 2. `components/layout/index.js` and `components/layout/navbar.js` — Container, Section, and responsive navigation.
 3. `components/sections/hero-media.js`, `category-strip.js`, and `hero.js` — replaceable homepage media and hero composition.
-4. `components/cards/index.js` — reusable creator and media cards.
-5. Existing app scripts — current route and data behavior.
-6. `pages/scene-experience.js` — current route composition and page renderers.
+4. `components/cards/index.js` and `components/cards/featured-card.js` — creator, media, feature, and trending cards.
+5. `components/sections/category-navigation.js`, `featured-grid.js`, `trending-section.js`, and `explore-section.js` — reusable Explore / Discovery compositions.
+6. `data/discovery-content.js` — structured editorial placeholder records, separate from presentation.
+7. Existing app scripts — current route and data behavior.
+8. `pages/scene-experience.js` — current route composition and page renderers.
 
 The component APIs are exposed as `window.Scene233UI`, `window.Scene233Layout`, and `window.Scene233Cards`. Homepage section renderers are exposed under `Scene233UI` and accept content as options. New page renderers should live in focused files in `pages/` and use these primitives instead of adding more page markup to a single component.
 

@@ -16,7 +16,7 @@ const categoryIconPaths={
  'Other':'<path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7zM19 15l1 2.5 2.5 1-2.5 1L19 22l-1-2.5-2.5-1 2.5-1z"/>'
 };
 function categoryIcon(name){return `<svg class="cat-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${categoryIconPaths[name]||categoryIconPaths.Other}</svg>`}
-const photos=['photo-1534528741775-53994a69daeb','photo-1500648767791-00dcc994a43e','photo-1531123897727-8f129e1688ce','photo-1506794778202-cad84cf45f1d','photo-1524504388940-b1c1722653e1','photo-1506794778202-cad84cf45f1d'];
+const photos=['photo-1649532349871-b5b10b5ab9c4','photo-1626021855512-da7f79ed0b18','photo-1713845784497-fe3d7ed176d8','photo-1606939725633-847d73166f9d','photo-1711954243992-f5cf54a92e93','photo-1739298061707-cefee19941b7'];
 const seedCreatives=[
  {id:'c1',name:'Ama Serwaa',user:'amavisuals',category:'Photography',location:'Accra, Ghana',price:850,bio:'I capture the little in-between moments that make a story feel real. Portraits, campaigns and celebrations, shot with warmth and intention.',tags:['Portraits','Events','Editorial'],image:photos[0],rating:'4.9',projects:24,availability:'Available this month',services:[['Portrait session','GHS 850'],['Event photography','GHS 2,500'],['Brand campaign','GHS 3,800']]},
  {id:'c2',name:'Kojo Mensah',user:'kojomotion',category:'Videography',location:'Tema, Ghana',price:1200,bio:'Director and cinematographer creating human-centered films for brands, artists and people with a story to tell.',tags:['Film','Music videos','Commercial'],image:photos[1],rating:'5.0',projects:18,availability:'Available for contracts',services:[['Music video','GHS 4,500'],['Brand film','GHS 6,000'],['Event recap','GHS 2,200']]},
@@ -28,7 +28,22 @@ const seedCreatives=[
 const seedJobs=[{id:'j1',title:'Photographer for a 2-day food festival',category:'Photography',client:'Good Food Ghana',location:'Accra',type:'one_time',budget_min:2500,budget_max:4500,deadline:'2026-10-20',description:'We are looking for a photographer to capture the colour, food and people at our upcoming food festival. Two full days; edited gallery delivered within one week.',created_at:'2026-09-26'}, {id:'j2',title:'Social media creative for a lifestyle brand',category:'Social Media',client:'Palm & Coast',location:'Remote · Ghana',type:'contract',budget_min:4500,budget_max:7000,deadline:'2026-10-15',description:'A three-month contract to plan and create social content for a growing lifestyle brand. Monthly content calendar, reels and community support.',created_at:'2026-09-25'}, {id:'j3',title:'Brand identity for a new Accra café',category:'Graphic Design',client:'The Sunday Table',location:'Accra',type:'one_time',budget_min:3000,budget_max:5000,deadline:'2026-10-12',description:'We need a full visual identity system for a neighbourhood café: logo, colour palette, menus and a simple social media starter kit.',created_at:'2026-09-23'}];
 const read=(k,f)=>{try{return JSON.parse(localStorage.getItem('gc_'+k))??f}catch{return f}};
 let creatives=read('creatives',seedCreatives),jobs=read('jobs',seedJobs),saved=read('saved',[]),applications=read('applications',[]),quotes=read('quotes',[]),posted=read('posted',[]),current=read('user',null),page='home',filterCat='',search='',similarTo=null,toastTimer;
-const persist=(key,val)=>localStorage.setItem('gc_'+key,JSON.stringify(val)),image=(id)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=82`,money=(n)=>'GHS '+Number(n).toLocaleString(),esc=(s='')=>String(s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+/* Keep persisted image IDs compatible while replacing stock portraits with Black creatives. */
+const imageReplacements={
+ 'photo-1534528741775-53994a69daeb':'photo-1711954243992-f5cf54a92e93',
+ 'photo-1500648767791-00dcc994a43e':'photo-1606939725633-847d73166f9d',
+ 'photo-1531123897727-8f129e1688ce':'photo-1713845784497-fe3d7ed176d8',
+ 'photo-1506794778202-cad84cf45f1d':'photo-1626021855512-da7f79ed0b18',
+ 'photo-1524504388940-b1c1722653e1':'photo-1713845784497-fe3d7ed176d8',
+ 'photo-1521737711867-e3b97375f902':'photo-1739298061707-cefee19941b7',
+ 'photo-1531058020387-3be344556be6':'photo-1739298061707-cefee19941b7',
+ 'photo-1492684223066-81342ee5ff30':'photo-1626021855512-da7f79ed0b18',
+ 'photo-1506157786151-b8491531f063':'photo-1626021855512-da7f79ed0b18',
+ 'photo-1539109136881-3be0616acf4b':'photo-1711954243992-f5cf54a92e93'
+};
+const image=(id)=>{const source=imageReplacements[id]||id;return /^(?:https?:\/\/|data:image\/)/i.test(source)?source:`https://images.unsplash.com/${source}?auto=format&fit=crop&w=1000&q=82`};
+window.Scene233Image=image;
+const persist=(key,val)=>localStorage.setItem('gc_'+key,JSON.stringify(val)),money=(n)=>'GHS '+Number(n).toLocaleString(),esc=(s='')=>String(s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 function sharesSkills(a,b){if(!a||!b||a.id===b.id)return false;let at=new Set((a.tags||[]).map(x=>x.toLowerCase()));return a.category===b.category||(b.tags||[]).some(x=>at.has(x.toLowerCase()))}
 function similarButton(c){return `<button class="similar-block" data-similar="${c.id}" aria-label="Find creatives with skills similar to ${esc(c.name)}"><span class="similar-stat"><strong>${Number(c.projects)||0}</strong><small>PROJECTS</small></span><span class="similar-skills"><small>SPECIALTIES</small><strong>${esc(c.category||'Creative')} · ${(c.tags||[]).slice(0,2).map(esc).join(' · ')||'Open to projects'}</strong><em>Find creatives with similar skills</em></span><span class="similar-arrow" aria-hidden="true">↗</span></button>`}
 function toast(s){let el=document.querySelector('.toast');if(!el){el=document.createElement('div');el.className='toast';document.body.append(el)}el.textContent=s;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),2400)}
