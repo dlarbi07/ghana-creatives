@@ -8,7 +8,7 @@
       ...creator,
       imageUrl: /^(https?:|data:image\/)/i.test(creator.image || '') ? creator.image : image(creator.image)
     })).join('');
-    return `<section class="scene-section scene-meet-creators scene-reveal" aria-labelledby="meet-scene-title">
+    return `<section class="scene-section scene-meet-creators scene-reveal" aria-labelledby="meet-scene-title">${UI.InteractiveBackground({variant:'creators',intensity:'subtle'})}
       <div class="scene-heading-row scene-meet-creators__heading">
         <div><span class="scene-kicker">THE PEOPLE BEHIND THE CULTURE</span><h2 id="meet-scene-title">MEET THE <em>SCENE.</em></h2></div>
         <div class="scene-meet-creators__intro"><p>Meet the photographers, filmmakers, designers and independent minds moving Ghanaian culture forward.</p><span>FICTIONAL CREATOR PROFILES · DEMO CONTENT</span></div>

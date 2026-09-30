@@ -1,0 +1,32 @@
+/* Shared ambient background layers. Decorative content stays behind the UI. */
+.scene-bg{position:absolute;z-index:0;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;color:var(--ink)}
+.scene-bg__grain{position:absolute;inset:0;opacity:.075;background-image:radial-gradient(#171717 0.38px,transparent .55px),radial-gradient(#173f35 .35px,transparent .55px);background-size:7px 7px,11px 11px;background-position:0 0,3px 4px;mix-blend-mode:multiply}
+.scene-bg--hero .scene-bg__grain{opacity:.045;mix-blend-mode:soft-light}
+.scene-bg__parallax,.scene-bg__geometry{position:absolute;inset:0;display:block;pointer-events:none}
+.scene-bg__shape{position:absolute;display:block;transform:translate3d(calc(var(--bg-x,0px)*.55 + var(--bg-scroll,0px)*.2),calc(var(--bg-y,0px)*.55 - var(--bg-scroll,0px)*.3),0)}
+.scene-bg--hero .scene-bg__shape--hero-ring{width:clamp(300px,50vw,720px);aspect-ratio:1;right:-10%;top:50%;border:1px solid #f3ebdd20;border-radius:50%;box-shadow:inset 0 0 0 30px #f3ebdd05,inset 0 0 0 31px #f3ebdd17;animation:sceneAmbientDrift 46s ease-in-out infinite alternate}
+.scene-bg--hero .scene-bg__shape--hero-grid{width:clamp(190px,25vw,350px);height:clamp(190px,25vw,350px);right:6%;top:18%;opacity:.11;background-image:linear-gradient(#f3ebdd 1px,transparent 1px),linear-gradient(90deg,#f3ebdd 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(circle,black 0%,transparent 72%);transform:translate3d(calc(var(--bg-x,0px)*.85 + var(--bg-scroll,0px)*.2),calc(var(--bg-y,0px)*.85 - var(--bg-scroll,0px)*.3),0)}
+.scene-bg--hero .scene-bg__shape--hero-dots{width:115px;height:115px;left:8%;bottom:12%;opacity:.19;background-image:radial-gradient(var(--ochre) 1px,transparent 1.6px);background-size:13px 13px;mask-image:linear-gradient(135deg,black,transparent 80%);transform:translate3d(calc(var(--bg-x,0px)*1.1),calc(var(--bg-y,0px)*1.1 - var(--bg-scroll,0px)*.2),0)}
+.scene-bg--explore .scene-bg__grain{opacity:.055}
+.scene-bg--explore .scene-bg__shape--explore-orbit{width:clamp(250px,35vw,490px);aspect-ratio:1;right:-10%;top:-24%;border:1px solid #173f3515;border-radius:50%;box-shadow:0 0 0 22px #173f3504,0 0 0 23px #173f3510}
+.scene-bg--explore .scene-bg__shape--explore-lines{width:160px;height:190px;left:3%;bottom:4%;opacity:.14;background:repeating-linear-gradient(135deg,transparent 0 10px,#c65a2e 10px 11px,transparent 11px 21px);mask-image:linear-gradient(135deg,black,transparent 74%)}
+.scene-bg--creators .scene-bg__grain{opacity:.05}
+.scene-bg--creators .scene-bg__shape--creator-dots{width:130px;height:180px;right:2%;top:12%;opacity:.18;background-image:radial-gradient(var(--forest) 1px,transparent 1.6px);background-size:14px 14px;mask-image:linear-gradient(160deg,black,transparent 78%);transform:translate3d(calc(var(--bg-x,0px)*.35),calc(var(--bg-y,0px)*.35 - var(--bg-scroll,0px)*.12),0);animation:sceneAmbientDrift 52s ease-in-out infinite alternate}
+.scene-bg--creators .scene-bg__shape--creator-arc{width:clamp(260px,34vw,470px);aspect-ratio:1;left:-15%;bottom:-70%;border:1px solid #c65a2e1a;border-radius:50%;box-shadow:0 0 0 24px #c65a2e04,0 0 0 25px #c65a2e14;transform:translate3d(calc(var(--bg-x,0px)*.25),calc(var(--bg-y,0px)*.25 - var(--bg-scroll,0px)*.1),0)}
+.scene-bg__cursor-glow{position:absolute;left:var(--cursor-x,-1000px);top:var(--cursor-y,-1000px);width:clamp(190px,24vw,310px);aspect-ratio:1;border-radius:50%;opacity:0;background:radial-gradient(circle,#c79a3b12 0%,#c65a2e09 28%,transparent 70%);transform:translate3d(-50%,-50%,0);transition:opacity .4s ease}
+.scene-bg.has-cursor .scene-bg__cursor-glow{opacity:1}
+.scene-home-hero{isolation:isolate}
+.scene-home-hero .scene-hero-texture{opacity:.07}
+.scene-home-hero .scene-hero-layout,.scene-home-hero .scene-scroll-cue{z-index:2}
+.scene-explore-section,.scene-meet-creators{position:relative;isolation:isolate}
+.scene-explore-section>*:not(.scene-bg),.scene-meet-creators>*:not(.scene-bg){position:relative;z-index:1}
+.scene-explore-section>.scene-bg,.scene-meet-creators>.scene-bg{position:absolute;z-index:0}
+.scene-bg--explore~*{position:relative}
+.scene-home-creator-track{position:relative}
+.scene-home-creator-card{position:relative}
+.scene-home-creator-card__image,.scene-home-creator-card__copy{z-index:1}
+.scene-home-hero .scene-bg--hero .scene-bg__shape--hero-ring{animation-duration:50s}
+@keyframes sceneAmbientDrift{from{translate:0 -3px}to{translate:0 3px}}
+@media(hover:none),(pointer:coarse){.scene-bg__cursor-glow{display:none}.scene-bg--hero .scene-bg__shape--hero-dots{display:none}.scene-bg--hero .scene-bg__shape--hero-ring{animation-duration:68s}.scene-bg--creators .scene-bg__shape--creator-dots{animation-duration:72s}}
+@media(max-width:650px){.scene-bg--hero .scene-bg__shape--hero-grid{width:170px;height:170px;right:-7%;top:27%;opacity:.075}.scene-bg--explore .scene-bg__shape--explore-lines{width:95px;height:120px;left:0}.scene-bg--creators .scene-bg__shape--creator-dots{width:76px;height:120px;right:0;top:9%;opacity:.13}}
+@media(prefers-reduced-motion:reduce){.scene-bg__shape,.scene-bg__cursor-glow{animation:none!important;transition:none!important;transform:none!important;translate:none!important}.scene-bg__cursor-glow{display:none!important}}
