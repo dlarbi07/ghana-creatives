@@ -1,8 +1,26 @@
 (function (root) {
   const UI = root.Scene233UI, e = UI.escape;
   const Stories = root.Scene233Stories = root.Scene233Stories || {};
+  // Adapt API/database records here, keeping the presentation components source-agnostic.
+  Stories.normalizeStory = function normalizeStory(story = {}) {
+    return {
+      ...story,
+      id: story.id || story.slug || '',
+      slug: story.slug || story.id || '',
+      title: story.title || 'Untitled story',
+      category: String(story.category || 'CULTURE').toUpperCase(),
+      summary: story.summary || story.sceneSummary || '',
+      source: story.source || story.sourceName || 'SCENE 233',
+      sourceUrl: story.sourceUrl || '',
+      publishedAt: story.publishedAt || story.originalPublishedAt || '',
+      discoveredAt: story.discoveredAt || '',
+      image: story.image || '',
+      imageAlt: story.imageAlt || story.title || 'Story image',
+      href: story.href || `#/stories/${encodeURIComponent(story.slug || story.id || '')}`
+    };
+  };
   UI.StoriesSection = function StoriesSection({ stories = root.Scene233StoryData?.stories || [], categories = root.Scene233StoryData?.categories || [], loading = false } = {}) {
-    const published = stories.filter(story => story.status === 'published');
+    const published = stories.filter(story => story.status === 'published').map(Stories.normalizeStory);
     if (loading) return `<section class="scene-stories-section scene-story-system scene-reveal" aria-label="Scene Stories">${UI.InteractiveBackground({ variant: 'explore', intensity: 'subtle' })}${Stories.StorySkeleton()}</section>`;
     const featured = published.find(story => story.featured);
     const gridItems = published.filter(story => !story.featured);

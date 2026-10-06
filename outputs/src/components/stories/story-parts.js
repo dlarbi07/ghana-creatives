@@ -2,7 +2,9 @@
   const UI = root.Scene233UI, e = UI.escape;
   const Stories = root.Scene233Stories = root.Scene233Stories || {};
   Stories.StoryCategoryNav = function StoryCategoryNav(categories = []) {
-    return `<nav class="scene-story-categories" aria-label="Filter stories by category">${['ALL', ...categories].map((category, index) => `<button type="button" data-story-filter="${e(category)}" class="${index === 0 ? 'is-active' : ''}" aria-pressed="${index === 0}">${e(category)}</button>`).join('')}</nav>`;
+    const available = new Set(categories.map(category => String(category).toUpperCase()));
+    const filters = ['ALL', 'FILM', 'MUSIC', 'DESIGN', 'PHOTOGRAPHY', 'FASHION', 'ART', 'TECH', 'CULTURE'].filter(category => category === 'ALL' || !available.size || available.has(category));
+    return `<nav class="scene-story-categories" aria-label="Filter stories by category">${filters.map((category, index) => `<button type="button" data-story-filter="${e(category)}" class="${index === 0 ? 'is-active' : ''}" aria-pressed="${index === 0}">${e(category)}</button>`).join('')}</nav><p class="scene-story-filter-status" data-story-filter-status aria-live="polite" aria-atomic="true"></p>`;
   };
   Stories.FeaturedStory = function FeaturedStory(story) {
     return story ? `<div class="scene-story-feature-wrap" data-story-feature-wrap>${Stories.StoryCard(story, { size: 'featured' })}</div>` : '';
@@ -18,6 +20,6 @@
     return `<div class="scene-story-empty" data-story-empty hidden><span class="scene-kicker">SCENE NOTES</span><h3>NOTHING HERE YET</h3><p>We’re looking for something worth putting on the scene.</p></div>`;
   };
   Stories.StorySkeleton = function StorySkeleton(count = 3) {
-    return `<div class="scene-story-skeleton-grid" aria-label="Loading stories" aria-busy="true">${Array.from({ length: Math.max(1, Math.min(count, 6)) }, () => '<article class="scene-story-skeleton"><span></span><i></i><b></b><b></b></article>').join('')}</div>`;
+    return `<div class="scene-story-skeleton-grid" role="status" aria-label="Loading stories" aria-busy="true">${Array.from({ length: Math.max(1, Math.min(count, 6)) }, () => '<article class="scene-story-skeleton"><span></span><i></i><b></b><b></b></article>').join('')}</div>`;
   };
 })(window);
